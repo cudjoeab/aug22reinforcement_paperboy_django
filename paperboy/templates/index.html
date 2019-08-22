@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Paper delivery</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main.css' %}">
-  </head>
-  <body>
-    <header class='site-heading'>
-      <h1>Paperboys</h1>
-    </header>
+{% extends 'base.html' %}
+
+{% block content %}
     <section class='summary'>
       <p>Total papers delivered: <em class='stats'>{{ total_papers }}</em></p>
       <p>Total payment earned: <em class='stats'>${{ total_earnings }}</em></p>
     </section>
+
     <ul>
       {% for pb in paperboys %}
         <li class='paperboy'>
-          <h2 class='paperboy-heading'>{{ pb.name }}</h2>
+          <a href="{% url 'paperboy_details' id=pb.pk %}">
+            <h2 class='paperboy-heading'>{{ pb.name }}</h2>
+          </a>
+          
           <p>{{ pb.report }}</p>
           <form class='deliver-form' action="{% url 'deliver' id=pb.id %}" method='post'>
             {% csrf_token %}
@@ -40,5 +35,4 @@
       {% endfor %}
     </ul>
 
-  </body>
-</html>
+{%  endblock %}
